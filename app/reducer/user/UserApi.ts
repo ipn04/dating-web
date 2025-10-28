@@ -26,7 +26,7 @@ const UserApi = createApi({
       void
     >({
       query: () => ({
-        url: 'auth/logout',
+        url: '/auth/logout',
         method: 'POST',
       }),
     }),
@@ -43,6 +43,26 @@ const UserApi = createApi({
       }),
     }),
 
+    getUser: builder.query<
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      any,
+      void
+    >({
+      query: () => ({
+        url: '/auth/me',
+      }),
+    }),
+
+    getAllUser: builder.query<
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      any,
+      void
+    >({
+      query: () => ({
+        url: '/auth/allUser',
+      }),
+    }),
+
   }),
 });
 
@@ -50,6 +70,8 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useSignUpMutation,
+  useLazyGetUserQuery,
+  useLazyGetAllUserQuery,
 } = UserApi;
 
 export default UserApi;

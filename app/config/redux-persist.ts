@@ -4,7 +4,7 @@ export default {
   app: {
     key: 'App',
     storage,
-    whitelist: [ 'theme' ],
+    whitelist: [ 'theme', 'matches', 'users' ],
   },
   user: {
     key: 'User',

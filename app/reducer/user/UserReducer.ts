@@ -9,12 +9,16 @@ export interface UserState {
   userProfile:
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   any;
+  allUser:
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  any;
 }
 
 const defaultState: UserState = {
   accessToken: null,
   user: {},
   userProfile: {},
+  allUser: [],
 };
 
 const reducer = createSlice({
@@ -24,6 +28,9 @@ const reducer = createSlice({
   // Non API request reducers
   reducers: {
     clearUserToken: () => defaultState,
+    setUserProfile: (state, action) => {
+      state.userProfile = action.payload;
+    },
   },
 
   // API request reducers
@@ -40,6 +47,14 @@ const reducer = createSlice({
       state.user = user;
     });
 
+    builder.addMatcher(UserApi.endpoints.getUser.matchFulfilled, (state, { payload }) => {
+      state.userProfile = payload;
+    });
+
+    builder.addMatcher(UserApi.endpoints.getAllUser.matchFulfilled, (state, { payload }) => {
+      state.allUser = payload;
+    });
+
     builder.addMatcher(UserApi.endpoints.logout.matchFulfilled, () => defaultState);
   },
 });
@@ -48,6 +63,7 @@ const UserAction = reducer.actions;
 
 export const {
   clearUserToken,
+  setUserProfile,
 } = UserAction;
 
 export default reducer;

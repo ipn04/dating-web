@@ -60,8 +60,7 @@ export default function LoginPage() {
     };
 
     try {
-      const res = await loginRequest(newData).unwrap();
-      console.log('Login successful:', res);
+      await loginRequest(newData).unwrap();
     } catch (
       error:
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

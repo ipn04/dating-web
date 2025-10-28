@@ -7,7 +7,7 @@ import reducers, { apiMiddlewares } from '@/app/reducer/main';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: [],
+  whitelist: ['User'],
   timeout: 0,
 };
 

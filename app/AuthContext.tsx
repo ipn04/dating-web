@@ -1,45 +1,24 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useRouter, usePathname } from 'next/navigation';
+import { IRootState } from '@/app/config/store';
 
-interface AuthContextType {
-  accessToken: string | null;
-  setAccessToken: (token: string | null) => void;
-}
-
-const AuthContext = createContext<AuthContextType>({
-  accessToken: null,
-  setAccessToken: () => {},
-});
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+export const AuthRedirect = () => {
+  const accessToken = useSelector((state: IRootState) => state.User.accessToken);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      setTimeout(() => setAccessToken(token), 0);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (accessToken) {
+    if (!pathname) return;
+    if (accessToken && (pathname === '/' || pathname.startsWith('/pages/auth'))) {
       router.replace('/pages/client/dashboard');
     }
-  }, [accessToken, router]);
+    else if (!accessToken && pathname.startsWith('/pages/client')) {
+      router.replace('/');
+    }
+  }, [accessToken, router, pathname]);
 
-  useEffect(() => {
-    if (accessToken) localStorage.setItem('accessToken', accessToken);
-    else localStorage.removeItem('accessToken');
-  }, [accessToken]);
-
-  return (
-    <AuthContext.Provider value={{ accessToken, setAccessToken }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return null;
 };
-
-export const useAuth = () => useContext(AuthContext);
