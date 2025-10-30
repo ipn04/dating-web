@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setUserProfile } from '@/app/reducer/user/UserReducer';
 import UserDetailModal from './modal/Modal';
 import Card from './card/Card';
+import { usePageTitle } from '@/app/shared/PageTitle/PageTitle';
 
 interface User {
   id: string;
@@ -18,11 +19,17 @@ interface User {
 }
 
 export default function DashboardPage() {
+  usePageTitle('Home');
   const accessToken = useSelector((state: IRootState) => state.User.accessToken);
   const [getUser] = useLazyGetUserQuery();
   const [getAllUser] = useLazyGetAllUserQuery();
   const [likeUser] = useLikeUserMutation();
   const [dislikeUser] = useDislikeUserMutation();
+  const [filters, setFilters] = useState({
+    minAge: 18,
+    maxAge: 35,
+    distance: 10,
+  });
 
   const dispatch = useDispatch();
 
@@ -33,7 +40,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!accessToken) return;
 
-    getAllUser()
+    getAllUser(filters)
       .unwrap()
       .then((res) => setUsers(res))
       .catch((err) => console.error(err));
@@ -42,7 +49,7 @@ export default function DashboardPage() {
       .unwrap()
       .then((user) => dispatch(setUserProfile(user)))
       .catch((err) => console.error(err));
-  }, [accessToken, getUser, getAllUser]);
+  }, [accessToken, getUser, getAllUser, filters]);
 
   const handleUserClick = (user: User) => {
     setSelectedUser(user);
@@ -79,10 +86,12 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="w-full bg-gray-50">
+    <div className="w-full bg-fa rounded-xl">
       <Card
         users={users}
         handleUserClick={handleUserClick}
+        filters={filters}
+        setFilters={setFilters}
       />
       <UserDetailModal
         user={selectedUser}

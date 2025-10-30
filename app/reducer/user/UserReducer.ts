@@ -56,6 +56,10 @@ const reducer = createSlice({
     });
 
     builder.addMatcher(UserApi.endpoints.logout.matchFulfilled, () => defaultState);
+
+    builder.addMatcher(UserApi.endpoints.updateUser.matchFulfilled, (state, { payload }) => {
+      state.userProfile = payload;
+    });
   },
 });
 

@@ -1,40 +1,58 @@
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+import { Moon, Sun } from 'lucide-react';
 
 export default function Navbar() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const mount = () => setMounted(true);
+    mount();
+  }, []);
+
   const navLinks = [
-    {
-      name: 'Home',
-      path: '/',
-    },
-    {
-      name: 'About',
-      path: '/about',
-    },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/' },
   ];
 
+  if (!mounted) return null;
+
   return (
-    <nav className="fixed w-full p-3 px-5 bg-green-400">
+    <nav className="container p-3 md:p-6 mx-auto z-50">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">Tugma</h1>
-        <div className="bg-gray-600 p-3 rounded-lg flex gap-4">
-          <ul className="flex gap-4">
-            {navLinks.map((link, index) => (
-              <li key={index}>
-                <Link href={link.path} className="text-white mx-2">
-                  {link.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <Link
-            href="/pages/auth/signup"
-            className="text-white p-2 px-4 bg-green-300 rounded-lg"
+        <h1 className="text-3xl primary-light font-bold">Tugma</h1>
+        <ul className="flex items-center gap-4">
+          {navLinks.map((link, index) => (
+            <li key={index}>
+              <Link href={link.path} className="primary-light mx-2">
+                {link.name}
+              </Link>
+            </li>
+          ))}
+
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-2 rounded-full transition-colors cursor-pointer hover:bg-gray-400"
+            title="Toggle theme"
           >
-            Login
-          </Link>
-        </div>
+            {theme === 'dark' ? (
+              <Sun className="w-5 h-5 text-yellow-400" />
+            ) : (
+              <Moon className="w-5 h-5 text-gray-800" />
+            )}
+          </button>
+
+          <div>
+            <Link
+              href="/pages/auth/login"
+              className="text-primary p-2 px-4 bg-section-background rounded-lg font-bold"
+            >
+              Login
+            </Link>
+          </div>
+        </ul>
       </div>
     </nav>
   );

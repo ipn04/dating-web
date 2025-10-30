@@ -5,8 +5,11 @@ import { trim } from 'lodash';
 import PasswordInput from '@/app/components/input/PasswordInput/PasswordInput';
 import EmailInput from '@/app/components/input/EmailInput/EmailInput';
 import { useLoginMutation } from '@/app/reducer/user/UserApi';
+import { usePageTitle } from '@/app/shared/PageTitle/PageTitle';
 
 export default function LoginPage() {
+  usePageTitle('Login');
+
   const [ errorMessage, setErrorMessage ] = useState('');
   const [ errors, setErrors ] = useState({
     email: '',
@@ -52,7 +55,7 @@ export default function LoginPage() {
     });
 
     if (!validate()) return;
-    // setLoading(true);
+    setLoading(true);
 
     const newData = {
       email: trim(data.email),
@@ -77,11 +80,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white text-gray-700 p-8 rounded-xl shadow-lg w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="bg-fa primary-light p-8 rounded-xl shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
         { errorMessage && (
-          <div className="text-red-500 p-3 rounded mb-4 text-center">
+          <div className="text-header-text p-3 rounded mb-4 text-center">
             {errorMessage}
           </div>
         )}
@@ -92,6 +95,7 @@ export default function LoginPage() {
               onChange={(value) => setData({ ...data, email: value })}
               errorMessages={errors.email}
               isInvalid={errorMessage}
+              disabled={loading}
             />
           </div>
           <div className='mb-4'>
@@ -100,18 +104,30 @@ export default function LoginPage() {
               onChange={(value) => setData({ ...data, password: value })}
               errorMessages={errors.password}
               isInvalid={errorMessage}
+              disabled={loading}
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-green-400 text-white font-semibold py-3 rounded-lg hover:bg-green-500 transition-colors"
+            className={`w-full font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 ${
+              loading
+                ? 'bg-gray-300 text-gray-400 cursor-not-allowed'
+                : 'bg-section-background text-gray-500 hover:bg-section-hover cursor-pointer'
+            }`}
+            disabled={loading}
           >
-            Login
+            {loading ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              </>
+            ) : (
+              'Login'
+            )}
           </button>
-          <p className="text-sm text-center text-gray-500 mt-4">
+          <p className="text-sm text-center primary-light mt-4">
             Dont have an account?{' '}
-            <Link href="/pages/auth/signup" className="text-green-400 hover:underline">
+            <Link href="/pages/auth/signup" className="primary-light font-bold cursor-pointer hover:underline">
               SignUp
             </Link>
           </p>

@@ -1,0 +1,17 @@
+.test {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 246, 248, 0.6) 0%,
+    rgba(255, 235, 238, 0.6) 50%,
+    rgba(247, 74, 105, 0.6) 100%
+  );
+}
+
+.right {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(247, 238, 255, 0.6) 0%,
+    rgba(247, 244, 250, 0.6) 50%,
+    rgba(233, 216, 255, 0.6) 100%
+  );
+}

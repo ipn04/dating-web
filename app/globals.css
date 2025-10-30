@@ -3,6 +3,19 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --text-primary: #2D2D2D;
+}
+
+html.dark {
+  --background: #222222;
+  --foreground: #ededed;
+
+  --color-fa-background: #313131;
+  --color-section-border: #444;
+  --color-highlight-bg: #3a3a3a;
+  --color-header-text: #ff6b6b;
+  --color-primary: #f5f5f5;
+  --text-primary-light: #ffffff;
 }
 
 @theme inline {
@@ -10,13 +23,43 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* background colors */
+  --color-section-background: #E9D8FF;
+  --color-section-border: #BFA2DB;
+  --color-highlight-background: #E9D8FF;
+
+  /* text colors */
+  --color-header-text: #C8001A;
+  --color-primary: #2D2D2D;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+} */
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.bg-fa {
+  background-color: var(--color-fa-background, #ffffff);
+}
+
+.primary-light {
+  color: var(--text-primary-light, #2D2D2D);
+}
+
+.highlight-bg {
+  background-color: var(--color-highlight-bg, #f0f0f0);
 }
 
 body {

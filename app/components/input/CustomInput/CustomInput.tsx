@@ -7,6 +7,7 @@ interface TextInputProps {
   placeholder?: string;
   errorMessages?: string | boolean | React.ReactNode | undefined;
   id: string;
+  disabled?: boolean;
 }
 
 export default function CustomInput({
@@ -16,6 +17,7 @@ export default function CustomInput({
   placeholder = '',
   errorMessages,
   id,
+  disabled,
 }: TextInputProps) {
   return (
     <div className="relative w-full">
@@ -38,6 +40,7 @@ export default function CustomInput({
             ? 'border-red-500 text-red-500'
             : 'border-gray-300'
         }`}
+        disabled={disabled}
       />
       {errorMessages && (
         <p className="text-red-500 text-xs font-bold mt-1">{errorMessages}</p>

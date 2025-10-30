@@ -107,15 +107,17 @@ export default function UserDetailModal({
                 </div>
 
                 <div className="p-6 space-y-4">
-                  <div>
-                    <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                      {user.name}, {user.age}
+                  <div className='flex justify-between items-center'>
+                    <h2 className="text-3xl font-bold text-gray-900">
+                      {user.name}
+                    </h2>
+                    <h2 className="text-3xl font-bold text-gray-900">
+                      {user.age}
                     </h2>
                   </div>
 
                   {user.bio && (
                     <div>
-                      <h3 className="text-sm font-semibold text-gray-900 mb-2">About</h3>
                       <p className="text-gray-700 text-sm leading-relaxed">
                         {user.bio}
                       </p>
@@ -140,9 +142,9 @@ export default function UserDetailModal({
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => handleSwipe('right')}
-              className="w-16 h-16 bg-gradient-to-br from-pink-500 to-purple-500 rounded-full shadow-xl flex items-center justify-center hover:shadow-2xl transition-all group"
+              className="w-16 h-16 bg-section-background rounded-full shadow-xl flex items-center justify-center hover:shadow-2xl transition-all group"
             >
-              <Heart className="w-8 h-8 text-white group-hover:scale-110 transition-transform" fill="white" />
+              <Heart className="w-8 h-8 text-white group-hover:scale-110 transition-transform" />
             </motion.button>
           </div>
         </div>

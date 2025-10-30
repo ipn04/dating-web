@@ -6,6 +6,7 @@ interface PasswordInputProps {
   placeholder?: string;
   errorMessages?: string | boolean | React.ReactNode | undefined;
   isInvalid?: string | boolean | React.ReactNode | undefined;
+  disabled?: boolean;
 }
 
 export default function PasswordInput({
@@ -14,6 +15,7 @@ export default function PasswordInput({
   placeholder = 'Password',
   errorMessages,
   isInvalid,
+  disabled,
 }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -35,6 +37,7 @@ export default function PasswordInput({
           onChange={(e) => onChange?.(e.target.value)}
           placeholder={placeholder}
           className={`w-full border-none focus:outline-none ${errorMessages || isInvalid ? 'text-red-500' : ''}`}
+          disabled={disabled}
         />
         <button
           type="button"

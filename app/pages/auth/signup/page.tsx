@@ -6,10 +6,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { trim } from 'lodash';
 import Image from 'next/image';
-
 import { useSignUpMutation } from '@/app/reducer/user/UserApi';
+import { usePageTitle } from '@/app/shared/PageTitle/PageTitle';
 
 export default function SignupPage() {
+  usePageTitle('Sign Up');
   const [ loading, setLoading ] = useState(false);
   const [errors, setErrors] = useState({
     name: '',
@@ -19,6 +20,7 @@ export default function SignupPage() {
     password: '',
     profile: '',
   });
+  console.log('Errors:', errors);
 
   const [data, setData] = useState({
     name: '',
@@ -89,7 +91,7 @@ export default function SignupPage() {
     });
 
     if (!validate()) return;
-    // setLoading(true);
+    setLoading(true);
 
     const newData = new FormData();
     newData.append('name', data.name);
@@ -110,10 +112,26 @@ export default function SignupPage() {
       any
     ) {
       if (error.status === 400) {
-        setErrors((prev) => ({
-          ...prev,
-          email: '*' + (error?.response?.data?.message || 'Email already in use.'),
-        }));
+        const message = error?.response?.data?.message || '';
+
+        if (message.toLowerCase().includes('password')) {
+          setErrors((prev) => ({
+            ...prev,
+            password: '*' + message,
+          }));
+        }
+        else if (message.toLowerCase().includes('email')) {
+          setErrors((prev) => ({
+            ...prev,
+            email: '*' + message,
+          }));
+        }
+        else {
+          setErrors((prev) => ({
+            ...prev,
+            email: '*' + message,
+          }));
+        }
         return;
       }
     } finally {
@@ -136,8 +154,8 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white text-gray-700 p-8 rounded-xl shadow-lg w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="bg-fa primary-light p-8 rounded-xl shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
         <form className="space-y-2" onSubmit={handleSignUp}>
           <div className="flex flex-col items-center mb-4">
@@ -189,6 +207,7 @@ export default function SignupPage() {
               value={data.age}
               onChange={(value) => setData({ ...data, age: value })}
               errorMessages={errors.age}
+              disabled={loading}
             />
           </div>
 
@@ -210,6 +229,7 @@ export default function SignupPage() {
               value={data.bio}
               onChange={(e) => setData({ ...data, bio: e.target.value })}
               rows={3}
+              disabled={loading}
             />
             {errors.bio && (
               <p className="text-red-500 text-xs font-bold">{errors.bio}</p>
@@ -220,6 +240,7 @@ export default function SignupPage() {
               value={data.email}
               onChange={(value) => setData({ ...data, email: value })}
               errorMessages={errors.email}
+              disabled={loading}
             />
           </div>
           <div className='mb-4'>
@@ -227,20 +248,32 @@ export default function SignupPage() {
               value={data.password}
               onChange={(value) => setData({ ...data, password: value })}
               errorMessages={errors.password}
+              disabled={loading}
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-green-400 text-white font-semibold py-3 rounded-lg hover:bg-green-500 transition-colors"
+            className={`w-full font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 ${
+              loading
+                ? 'bg-gray-300 text-gray-400 cursor-not-allowed'
+                : 'bg-section-background text-gray-500 hover:bg-section-hover cursor-pointer'
+            }`}
+            disabled={loading}
           >
-            Sign Up
+            {loading ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              </>
+            ) : (
+              'Sign Up'
+            )}
           </button>
 
-          <p className="text-sm text-center text-gray-500 mt-4">
+          <p className="text-sm text-center primary-light mt-4">
             Already have an account?{' '}
             <Link
               href="/pages/auth/login"
-              className="text-green-400 hover:underline"
+              className="primary-light font-bold cursor-pointer hover:underline"
             >
               Login
             </Link>

@@ -56,13 +56,36 @@ const UserApi = createApi({
     getAllUser: builder.query<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       any,
-      void
+      { minAge?: number; maxAge?: number; distance?: number }
     >({
-      query: () => ({
-        url: '/auth/allUser',
-      }),
+      query: (filters) => {
+        const params = new URLSearchParams();
+        if (filters.minAge) params.append('minAge', filters.minAge.toString());
+        if (filters.maxAge) params.append('maxAge', filters.maxAge.toString());
+        if (filters.distance) params.append('distance', filters.distance.toString());
+
+        return {
+          url: `/auth/allUser?${params.toString()}`,
+          method: 'GET',
+        };
+      },
     }),
 
+    updateUser: builder.mutation<
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      any,
+      { data: FormData }
+    >({
+      query: ({ data }) => ({
+        url: '/auth/update',
+        method: 'PUT',
+        data,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -72,6 +95,7 @@ export const {
   useSignUpMutation,
   useLazyGetUserQuery,
   useLazyGetAllUserQuery,
+  useUpdateUserMutation,
 } = UserApi;
 
 export default UserApi;

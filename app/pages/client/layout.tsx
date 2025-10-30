@@ -32,9 +32,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   }, [accessToken, dispatch, getUser, getMatch]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <Sidebar />
-      <main className="lg:ml-64 flex min-h-screen p-6 lg:p-8">
+      <main className="lg:ml-64 flex min-h-screen p-6 lg:p-8 bg-background text-foreground transition-colors duration-300">
         {children}
       </main>
     </div>
