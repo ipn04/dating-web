@@ -13,13 +13,13 @@ export default function Home() {
     <div className="flex font-sans bg-background text-foreground transition-colors duration-300">
       <main className="flex w-full flex-col sm:items-start">
         <Navbar />
-        <div className="h-screen w-full flex justify-center">
+        <div id="hero" className="h-screen w-full flex justify-center">
           <HeroSection />
         </div>
-        <div className="h-screen w-full flex justify-center bg-background">
+        <div id="about" className="h-screen w-full flex justify-center bg-background">
           <AboutSection />
         </div>
-        <div className="w-full">
+        <div id="steps" className="w-full">
           <Steps />
         </div>
       </main>

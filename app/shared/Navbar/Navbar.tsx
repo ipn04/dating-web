@@ -13,9 +13,18 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/' },
+    { name: 'Home', path: '#hero' },
+    { name: 'About', path: '#about' },
+    { name: 'How it Works', path: '#steps' },
   ];
+
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    e.preventDefault();
+    const element = document.querySelector(path);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   if (!mounted) return null;
 
@@ -26,9 +35,12 @@ export default function Navbar() {
         <ul className="flex items-center gap-4">
           {navLinks.map((link, index) => (
             <li key={index}>
-              <Link href={link.path} className="primary-light mx-2">
+              <a href={link.path}
+                onClick={(e) => handleScroll(e, link.path)}
+                className="primary-light mx-1 hidden md:flex cursor-pointer hover:opacity-80 transition-opacity"
+              >
                 {link.name}
-              </Link>
+              </a>
             </li>
           ))}
 
@@ -47,7 +59,7 @@ export default function Navbar() {
           <div>
             <Link
               href="/pages/auth/login"
-              className="text-primary p-2 px-4 bg-section-background rounded-lg font-bold"
+              className="text-primary p-2 px-4 bg-section-background rounded-lg font-bold hover:bg-section-border transition-colors"
             >
               Login
             </Link>

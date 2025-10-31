@@ -256,7 +256,7 @@ export default function SignupPage() {
             className={`w-full font-semibold py-3 rounded-lg transition-colors flex items-center justify-center gap-2 ${
               loading
                 ? 'bg-gray-300 text-gray-400 cursor-not-allowed'
-                : 'bg-section-background text-gray-500 hover:bg-section-hover cursor-pointer'
+                : 'bg-section-background text-gray-500 hover:bg-section-hover cursor-pointer hover:bg-section-border transition-colors'
             }`}
             disabled={loading}
           >

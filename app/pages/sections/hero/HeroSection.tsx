@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function HeroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -31,8 +32,10 @@ export default function HeroSection() {
             Looking for someone who gets you? Let&apos;s write your love story together.
           </h2>
           <div className="flex justify-center md:justify-start">
-            <button className="bg-section-background text-primary px-6 py-3 rounded-lg text-lg font-semibold hover:bg-green-600 transition-colors">
-              Create account
+            <button className="bg-section-background text-primary px-6 py-3 rounded-lg text-lg font-semibold hover:bg-section-border transition-colors">
+              <Link href="/pages/auth/login">
+                Create Account
+              </Link>
             </button>
           </div>
         </div>
